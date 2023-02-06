@@ -8,11 +8,12 @@
         "@forge/jira-bridge": "0.6.0"
     },
     "devDependencies": {
+        "cross-env": "7.0.3",
         "parcel": "2.3.2"
     },
     "scripts": {
         "start": "parcel public/index.html",
-        "build": "PARCEL_WORKERS=0 parcel build public/index.html"
+        "build": "cross-env PARCEL_WORKERS=0 parcel build public/index.html"
     },
     "targets": {
         "default": {

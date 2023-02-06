@@ -23,11 +23,13 @@
         "react-router-dom": "^6.2.1"
     },
     "devDependencies": {
-        "parcel": "2.3.2"
+        "parcel": "2.3.2",
+        "cross-env": "7.0.3",
+        "rimraf": "4.1.2"
     },
     "scripts": {
-        "start": "PARCEL_WORKERS=0 parcel watch public/index.html --no-hmr --no-cache",
-        "build": "rm -rf dist && PARCEL_WORKERS=0 parcel build public/index.html"
+        "start": "cross-env PARCEL_WORKERS=0 parcel watch public/index.html --no-hmr --no-cache",
+        "build": "rimraf dist && cross-env PARCEL_WORKERS=0 parcel build public/index.html"
     },
     "targets": {
         "default": {
