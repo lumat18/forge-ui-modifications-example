@@ -3,13 +3,14 @@ import Select, { AsyncSelect } from '@atlaskit/select';
 import { invoke } from '@forge/bridge';
 import { useCallback, useEffect, useState } from 'react';
 
-const ProjectissuetypeSelectors = ({ setSubmitDisabled }) => {
+export const ContextSelector = ({ setSubmitDisabled }) => {
     const [project, setProject] = useState(null);
     const [issueType, setIssueType] = useState(null);
+    const [viewType, setViewType] = useState(null);
 
     useEffect(() => {
-        setSubmitDisabled(!project || !issueType);
-    }, [issueType, project]);
+        setSubmitDisabled(!project || !issueType || !viewType);
+    }, [issueType, project, viewType]);
 
     const iconStyles = {
         singleValue: (provided, state) => {
@@ -133,12 +134,31 @@ const ProjectissuetypeSelectors = ({ setSubmitDisabled }) => {
         </Field>
     );
 
+    const ViewTypeField = (   
+        <Field key="viewType" name="viewType" label="Select a view" isRequired>
+            {({ fieldProps: { onChange, ...rest } }) => (
+                <Select
+                    inputId="select-view-type"
+                    {...rest}
+                    cacheOptions
+                    defaultOptions
+                    onChange={(value) => {
+                        onChange(value);
+                        setViewType(value);
+                    }}
+                    styles={iconStyles}
+                    options={[{label: 'GIC', value: 'GIC'},  {label: 'Issue View', value: 'IssueView'}]}
+                />
+            )}
+        </Field>
+    );
+
+
     return (
         <>
             {ProjectField}
             {IssueTypeField}
+            {ViewTypeField}
         </>
     );
 };
-
-export default ProjectissuetypeSelectors;

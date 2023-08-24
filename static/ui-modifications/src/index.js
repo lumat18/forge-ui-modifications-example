@@ -11,13 +11,15 @@ console.log = (...args) => {
 view.getContext().then((context) => {
     const { extension } = context;
     console.log('Context:');
-    console.table({ project: extension.project, issueType: extension.issueType });
+    const issue = extension.issue ?? { id: undefined, key: undefined };
+    console.table({ project: extension.project, issueType: extension.issueType, issue: issue });
+    console.table({ viewType: extension.viewType});
 });
 
 const { onInit, onChange } = uiModificationsApi;
 
 const onInitCallback = ({ api, uiModifications }) => {
-    const { getFieldById } = api;
+    const { getFieldById, getFields } = api;
 
     // Hiding the priority field
     const priority = getFieldById('priority');
@@ -27,16 +29,17 @@ const onInitCallback = ({ api, uiModifications }) => {
     const summary = getFieldById('summary');
     summary?.setName('Modified summary label');
 
-    // Changing the assignee field description
+    // Changing the assignee field description and name
     const assignee = getFieldById('assignee');
     assignee?.setDescription('Description added by UI modifications');
+    assignee?.setName('Name of the assignee changed by UI modifications');
 
     // Hiding the description field
     const description = getFieldById('description');
     description?.setVisible(false);
 
     console.log('Fields Snapshot:');
-    console.table(getFieldsSnapshot(getFieldById));
+    console.table(getFieldsSnapshot({ getFields }));
 
     // Here we read the data that can be set when creating the UI modifications context
     // This is preferred method of making small customizations to adapt your UI modifications to different projects and issue types

@@ -5,7 +5,7 @@ import Form, { FormFooter } from '@atlaskit/form';
 
 import Button from '@atlaskit/button/standard-button';
 
-import ProjectissuetypeSelectors from '../components/ProjectissuetypeSelector';
+import { ContextSelector } from '../components/ContextSelector';
 
 export const createUimContext = (uiModification, data, setContextResult) => {
     return invokeUiModifications('PUT /rest/api/3/uiModifications/{uiModificationId}', {
@@ -15,12 +15,12 @@ export const createUimContext = (uiModification, data, setContextResult) => {
                 ...uiModification.contexts.map((context) => ({
                     projectId: context.projectId,
                     issueTypeId: context.issueTypeId,
-                    viewType: 'GIC',
+                    viewType: context.viewType,
                 })),
                 {
                     projectId: data.project.value,
                     issueTypeId: data.issueType.value,
-                    viewType: 'GIC',
+                    viewType: data.viewType.value,
                 },
             ],
         },
@@ -81,7 +81,7 @@ export function useContextCreateModal(currentUiModification, setUpdateTable, set
                         >
                             {({ formProps }) => (
                                 <form {...formProps}>
-                                    <ProjectissuetypeSelectors
+                                    <ContextSelector
                                         setSubmitDisabled={setSubmitDisabled}
                                     />
 
