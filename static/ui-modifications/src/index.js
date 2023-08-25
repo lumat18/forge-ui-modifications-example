@@ -7,6 +7,8 @@ console.log = (...args) => {
     log('UI modifications app,', ...args);
 };
 
+const isIssueView = (viewType) => viewType === "IssueView";
+
 // Context usage
 view.getContext().then((context) => {
     const { extension } = context;
@@ -18,9 +20,9 @@ view.getContext().then((context) => {
 
 const { onInit, onChange } = uiModificationsApi;
 
-const onInitCallback = ({ api, uiModifications }) => {
+const onInitCallback = async ({ api, uiModifications }) => {
     const { getFieldById, getFields } = api;
-
+    const { extension: { viewType } }  = await view.getContext();
     // Hiding the priority field
     const priority = getFieldById('priority');
     priority?.setVisible(false);
@@ -28,15 +30,38 @@ const onInitCallback = ({ api, uiModifications }) => {
     // Changing the summary field label
     const summary = getFieldById('summary');
     summary?.setName('Modified summary label');
+    // Changing the value of the summary field, only on Issue view
+    if (isIssueView(viewType)) {
+        summary?.setValue('Modified summary value');
+    }
 
     // Changing the assignee field description and name
     const assignee = getFieldById('assignee');
     assignee?.setDescription('Description added by UI modifications');
     assignee?.setName('Name of the assignee changed by UI modifications');
 
-    // Hiding the description field
+    // Chaning the name of description field
     const description = getFieldById('description');
-    description?.setVisible(false);
+    description?.setName("Modified description name");
+    // Changing the value of the description field, only on Issue view
+    if (isIssueView(viewType)) {
+        description?.setValue({
+            version: 1,
+            type: 'doc',
+            content: [
+                {
+                    type: 'paragraph',
+                    content: [
+                        {
+                            type: 'text',
+                            text: 'Modified description value',
+                        },
+                    ],
+                },
+               
+            ],
+        });
+    }
 
     console.log('Fields Snapshot:');
     console.table(getFieldsSnapshot({ getFields }));
