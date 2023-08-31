@@ -40,7 +40,7 @@ const onInitCallback = async ({ api, uiModifications }) => {
     assignee?.setDescription('Description added by UI modifications');
     assignee?.setName('Name of the assignee changed by UI modifications');
 
-    // Chaning the name of description field
+    // Changing the name of description field
     const description = getFieldById('description');
     description?.setName("Modified description name");
     // Changing the value of the description field, only on Issue view
