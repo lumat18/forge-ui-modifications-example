@@ -9,7 +9,7 @@ modules:
       layout: basic
       resource: adminPage
       sections:
-        - heeader: UI modifications admin page
+        - header: UI modifications admin page
           pages:
             - title: Home
               route: '/'
