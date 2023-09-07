@@ -7,18 +7,22 @@ console.log = (...args) => {
     log('UI modifications app,', ...args);
 };
 
+const isIssueView = (viewType) => viewType === "IssueView";
+
 // Context usage
 view.getContext().then((context) => {
     const { extension } = context;
     console.log('Context:');
-    console.table({ project: extension.project, issueType: extension.issueType });
+    const issue = extension.issue ?? { id: undefined, key: undefined };
+    console.table({ project: extension.project, issueType: extension.issueType, issue: issue });
+    console.table({ viewType: extension.viewType});
 });
 
 const { onInit, onChange } = uiModificationsApi;
 
-const onInitCallback = ({ api, uiModifications }) => {
-    const { getFieldById } = api;
-
+const onInitCallback = async ({ api, uiModifications }) => {
+    const { getFieldById, getFields } = api;
+    const { extension: { viewType } }  = await view.getContext();
     // Hiding the priority field
     const priority = getFieldById('priority');
     priority?.setVisible(false);
@@ -26,17 +30,41 @@ const onInitCallback = ({ api, uiModifications }) => {
     // Changing the summary field label
     const summary = getFieldById('summary');
     summary?.setName('Modified summary label');
+    // Changing the value of the summary field, only on Issue view
+    if (isIssueView(viewType)) {
+        summary?.setValue('Modified summary value');
+    }
 
-    // Changing the assignee field description
+    // Changing the assignee field description and name
     const assignee = getFieldById('assignee');
     assignee?.setDescription('Description added by UI modifications');
+    assignee?.setName('Name of the assignee changed by UI modifications');
 
-    // Hiding the description field
+    // Changing the name of description field
     const description = getFieldById('description');
-    description?.setVisible(false);
+    description?.setName("Modified description name");
+    // Changing the value of the description field, only on Issue view
+    if (isIssueView(viewType)) {
+        description?.setValue({
+            version: 1,
+            type: 'doc',
+            content: [
+                {
+                    type: 'paragraph',
+                    content: [
+                        {
+                            type: 'text',
+                            text: 'Modified description value',
+                        },
+                    ],
+                },
+               
+            ],
+        });
+    }
 
     console.log('Fields Snapshot:');
-    console.table(getFieldsSnapshot(getFieldById));
+    console.table(getFieldsSnapshot({ getFields }));
 
     // Here we read the data that can be set when creating the UI modifications context
     // This is preferred method of making small customizations to adapt your UI modifications to different projects and issue types

@@ -1,18 +1,19 @@
-const SUPPORTED_FIELDS = ['assignee', 'description', 'labels', 'priority', 'summary'];
-
-function getFieldData(getFieldById, name) {
+function getFieldData(field) {
     return {
-        received: !!getFieldById(name),
-        name: getFieldById(name)?.getName(),
-        value: getFieldById(name)?.getValue(),
-        description: getFieldById(name)?.getDescription(),
-        isVisible: getFieldById(name)?.isVisible(),
+        type: field.getType(),
+        name: field.getName(),
+        value: field.getValue(),
+        optionsVisibility: field.getOptionsVisibility?.(),
+        description:field.getDescription(),
+        isVisible: field.isVisible(),
+        isReadOnly: field.isReadOnly(),
+        isRequired: field.isRequired?.(),
     };
 }
 
-export function getFieldsSnapshot(getFieldById) {
-    return SUPPORTED_FIELDS.reduce((acc, fieldId) => {
-        acc[fieldId] = getFieldData(getFieldById, fieldId);
+export function getFieldsSnapshot({ getFields }) {
+    return getFields().reduce((acc, field) => {
+        acc[field.getId()] = getFieldData(field);
 
         return acc;
     }, {});
