@@ -74,9 +74,9 @@ const onInitCallback = async ({ api, uiModifications }) => {
 
     // Return a Promise to apply changes after resolve.
     return new Promise(async (resolve) => {
-        // Example Product API call
-        const result = await requestJira('/rest/api/3/myself');
-        console.log('API call status:', result.status);
+        // Example Product API call, lists all the projects before applying the UIM changes
+        const result = await requestJira('/rest/api/3/project');
+        console.log('API call result:', { status: result.status, projects: await result.json() });
         resolve();
     });
 };
