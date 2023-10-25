@@ -39,5 +39,3 @@ permissions:
     styles:
       - 'unsafe-inline'
 app:
-  features:
-    autoUserConsent: true
