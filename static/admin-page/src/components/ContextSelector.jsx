@@ -147,7 +147,7 @@ export const ContextSelector = ({ setSubmitDisabled }) => {
                         setViewType(value);
                     }}
                     styles={iconStyles}
-                    options={[{label: 'GIC', value: 'GIC'},  {label: 'Issue View', value: 'IssueView'}]}
+                    options={[{label: 'GIC', value: 'GIC'},  {label: 'Issue View', value: 'IssueView'}, {label: 'Issue Transition (EAP)', value: 'IssueTransition'}]}
                 />
             )}
         </Field>
