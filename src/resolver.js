@@ -4,6 +4,7 @@ import {
     UI_MODIFICATIONS_POST,
     UI_MODIFICATIONS_PUT,
     UI_MODIFICATIONS_DELETE,
+    UiModificationsEndpoints,
     UiModificationsMethod
 } from './constants';
 
@@ -71,7 +72,7 @@ export async function uimResolver(endpoint, payload) {
 }
 
 export function define(resolver) {
-    Object.keys(UiModificationsEndpoints).map((endpoint) => {
+    UiModificationsEndpoints.map((endpoint) => {
         resolver.define(endpoint, async ({ payload }) => {
             return await uimResolver(endpoint, payload);
         });
