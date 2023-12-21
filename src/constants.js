@@ -1,12 +1,7 @@
-export const UiModificationsEndpoints = {
-    'GET /rest/api/3/uiModifications': '/rest/api/3/uiModifications',
-    'POST /rest/api/3/uiModifications': '/rest/api/3/uiModifications',
-
-    'PUT /rest/api/3/uiModifications/{uiModificationId}':
-        '/rest/api/3/uiModifications/{uiModificationId}',
-    'DELETE /rest/api/3/uiModifications/{uiModificationId}':
-        '/rest/api/3/uiModifications/{uiModificationId}',
-};
+export const UI_MODIFICATIONS_GET = 'GET /rest/api/3/uiModifications';
+export const UI_MODIFICATIONS_POST = 'POST /rest/api/3/uiModifications';
+export const UI_MODIFICATIONS_PUT = 'PUT /rest/api/3/uiModifications/{uiModificationId}';
+export const UI_MODIFICATIONS_DELETE = 'DELETE /rest/api/3/uiModifications/{uiModificationId}';
 
 export const UiModificationsMethod = {
     'GET /rest/api/3/uiModifications': 'GET',
