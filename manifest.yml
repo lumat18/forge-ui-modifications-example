@@ -39,4 +39,3 @@ permissions:
     styles:
       - 'unsafe-inline'
 app:
-  id: ari:cloud:ecosystem::app/e101ec17-5912-48f5-b49f-4a7779e5b287
