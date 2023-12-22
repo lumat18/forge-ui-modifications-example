@@ -1,5 +1,12 @@
 import api, { APIResponse, route } from '@forge/api';
-import { UiModificationsEndpoints, UiModificationsMethod } from './constants';
+import {
+    UI_MODIFICATIONS_GET,
+    UI_MODIFICATIONS_POST,
+    UI_MODIFICATIONS_PUT,
+    UI_MODIFICATIONS_DELETE,
+    UiModificationsEndpoints,
+    UiModificationsMethod
+} from './constants';
 
 export const logJson = (content, context = '') => {
     console.log(context, JSON.stringify(content, null, 2));
@@ -28,17 +35,14 @@ export async function uimResolver(endpoint, payload) {
     }
 
     let requestURL;
+    const uiModificationId = payload.id;
 
-    let url = UiModificationsEndpoints[endpoint];
-
-    if ('contextId' in payload) {
-        url = url.replace('{contextId}', payload.contextId);
+    if (endpoint === UI_MODIFICATIONS_GET || endpoint ===UI_MODIFICATIONS_POST) {
+        requestURL = route`/rest/api/3/uiModifications?${params}`;
     }
-    if ('id' in payload) {
-        url = url.replace('{uiModificationId}', payload.id);
+    if (endpoint === UI_MODIFICATIONS_PUT || endpoint === UI_MODIFICATIONS_DELETE) {
+        requestURL = route`/rest/api/3/uiModifications/${uiModificationId}?${params}`;
     }
-
-    requestURL = route`${url}?${params}`;
 
     console.log('Request URL', requestURL);
     console.log('Method', UiModificationsMethod[endpoint]);
@@ -68,7 +72,7 @@ export async function uimResolver(endpoint, payload) {
 }
 
 export function define(resolver) {
-    Object.keys(UiModificationsEndpoints).map((endpoint) => {
+    UiModificationsEndpoints.map((endpoint) => {
         resolver.define(endpoint, async ({ payload }) => {
             return await uimResolver(endpoint, payload);
         });
