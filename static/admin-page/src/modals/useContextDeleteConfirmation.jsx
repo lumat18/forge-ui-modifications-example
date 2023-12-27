@@ -20,7 +20,7 @@ const deleteContext = function (uiModification, contextId, setContextDeleteResul
                     .map((context) => ({
                         projectId: context.projectId,
                         issueTypeId: context.issueTypeId,
-                        viewType: 'GIC',
+                        viewType: context.viewType,
                     })),
             ],
         },
