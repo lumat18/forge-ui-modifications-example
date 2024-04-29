@@ -39,3 +39,5 @@ permissions:
     styles:
       - 'unsafe-inline'
 app:
+  runtime:
+    name: sandbox
