@@ -27,13 +27,13 @@
         "static/ui-modifications"
     ],
     "devDependencies": {
-        "eslint": "^8.47.0",
-        "eslint-plugin-react-hooks": "^4.6.0",
-        "prettier": "^3.0.2",
+        "eslint": "^9.15.0",
+        "eslint-plugin-react-hooks": "^5.0.0",
+        "prettier": "^3.3.3",
         "process": "^0.11.10"
     },
     "dependencies": {
-        "@forge/api": "3.4.0",
-        "@forge/resolver": "1.5.25"
+        "@forge/api": "4.1.0",
+        "@forge/resolver": "1.6.1"
     }
 }
