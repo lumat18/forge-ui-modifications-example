@@ -12,8 +12,6 @@
     "homepage": "https://bitbucket.org/atlassian/forge-ui-modifications-example/src/master/README.md",
     "scripts": {
         "format": "npx prettier --write ./static ./src ./README.md",
-        "lint": "./node_modules/.bin/eslint src/**/* || npm run --silent hook-errors",
-        "hook-errors": "echo '\\x1b[31mThe build failed because a Forge UI hook is being used incorrectly. Forge UI hooks follow the same rules as React Hooks but have their own API definitions. See the Forge documentation for details on how to use Forge UI hooks.\n' && exit 1",
         "watch:admin": "yarn workspace ui-modifications-admin-page start",
         "build:admin": "yarn workspace ui-modifications-admin-page build",
         "watch:uim": "yarn workspace ui-modifications-app start",
@@ -27,8 +25,6 @@
         "static/ui-modifications"
     ],
     "devDependencies": {
-        "eslint": "^9.15.0",
-        "eslint-plugin-react-hooks": "^5.0.0",
         "prettier": "^3.3.3",
         "process": "^0.11.10"
     },

@@ -1,6 +1,10 @@
 import { view, requestJira } from '@forge/bridge';
-import { uiModificationsApi } from '@forge/jira-bridge';
-import { getFieldsSnapshot } from './getFieldsSnapshot';
+import {
+  type OnChangeHookCallback,
+  type OnInitHookCallback,
+  uiModificationsApi,
+} from '@forge/jira-bridge';
+import { getFieldsSnapshot, getScreenTabsSnapshot } from './utils/getSnapshots.ts';
 
 const log = console.log;
 console.log = (...args) => {
@@ -20,8 +24,8 @@ view.getContext().then((context) => {
 
 const { onInit, onChange } = uiModificationsApi;
 
-const onInitCallback = async ({ api, uiModifications }) => {
-  const { getFieldById, getFields } = api;
+const onInitCallback: OnInitHookCallback = async ({ api, uiModifications }) => {
+  const { getFieldById } = api;
   const {
     extension: { viewType },
   } = await view.getContext();
@@ -65,7 +69,10 @@ const onInitCallback = async ({ api, uiModifications }) => {
   }
 
   console.log('Fields Snapshot:');
-  console.table(getFieldsSnapshot({ getFields }));
+  console.table(getFieldsSnapshot(api));
+
+  console.log('Screen tabs Snapshot:');
+  console.table(getScreenTabsSnapshot(api));
 
   // Here we read the data that can be set when creating the UI modifications context
   // This is preferred method of making small customizations to adapt your UI modifications to different projects and issue types
@@ -86,10 +93,15 @@ onInit(onInitCallback, () => {
   return ['summary', 'assignee', 'description', 'priority'];
 });
 
-const onChangeCallback = ({ api, change, uiModifications }) => {
+const onChangeCallback: OnChangeHookCallback = ({ api, change, uiModifications }) => {
   // The `change.current` property provides access
   // to the field which triggered the change
-  const id = change.current.getId();
+  const { current: currentChange } = change;
+  if (!currentChange) {
+    return;
+  }
+
+  const id = currentChange.getId();
 
   // The UI modifications data is also present in the onChange callback
   uiModifications.forEach((uiModification) => {
@@ -99,11 +111,11 @@ const onChangeCallback = ({ api, change, uiModifications }) => {
   // Checking if the change event was triggered by the `summary` field
   if (id === 'summary') {
     // Logging the current `summary` field value
-    const value = change.current.getValue();
+    const value = currentChange.getValue();
     console.log(`The ${id} field value is: ${value}`);
 
     // Updating the `summary` field description
-    change.current.setDescription(`The ${id} field was updated at: ${new Date().toString()}`);
+    currentChange.setDescription(`The ${id} field was updated at: ${new Date().toString()}`);
 
     // Showing the priority field (keep in mind the onInitCallback hides it)
     api.getFieldById('priority')?.setVisible(true);

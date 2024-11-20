@@ -1,4 +1,6 @@
-function getFieldData(field) {
+import type { HookApi, Field } from '@forge/jira-bridge';
+
+function getFieldData(field: Field<any>) {
   return {
     type: field.getType(),
     name: field.getName(),
@@ -11,9 +13,20 @@ function getFieldData(field) {
   };
 }
 
-export function getFieldsSnapshot({ getFields }) {
+export function getFieldsSnapshot({ getFields }: HookApi) {
   return getFields().reduce((acc, field) => {
     acc[field.getId()] = getFieldData(field);
+
+    return acc;
+  }, {});
+}
+
+export function getScreenTabsSnapshot({ getScreenTabs }: HookApi) {
+  return getScreenTabs?.().reduce((acc: {}, tab) => {
+    acc[tab.getId()] = {
+      id: tab.getId(),
+      isVisible: tab.isVisible(),
+    };
 
     return acc;
   }, {});
