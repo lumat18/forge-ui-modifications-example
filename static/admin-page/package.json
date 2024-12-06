@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "homepage": ".",
+  "type": "module",
   "dependencies": {
     "@atlaskit/button": "20.3.2",
     "@atlaskit/code": "15.6.6",

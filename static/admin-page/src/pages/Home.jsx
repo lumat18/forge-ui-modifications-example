@@ -1,9 +1,15 @@
 import React from 'react';
+import { hello } from 'common-package';
+import MyButton from 'common-package/MyButton.jsx';
+
+import { run } from 'another-package/script.js';
 
 function Home() {
   return (
     <>
       <h3>UI modifications example admin page</h3>
+      <MyButton onClick={hello} />
+      <button onClick={run}>Run</button>
       <p>
         This example admin page was created to allow developers to focus on writing their first UI
         modifications without putting together the data and contexts for the UI modifications,

@@ -22,7 +22,9 @@
     },
     "workspaces": [
         "static/admin-page",
-        "static/ui-modifications"
+        "static/ui-modifications",
+        "packages/common-package",
+        "packages/another-package"
     ],
     "devDependencies": {
         "prettier": "^3.3.3",
